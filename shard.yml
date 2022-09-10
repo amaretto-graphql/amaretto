@@ -1,0 +1,13 @@
+name: amaretto
+version: 0.1.0
+
+authors:
+  - Giorgi Kavrelishvili <giorgi.kavrelishvili@pm.me>
+
+dependencies:
+  graphql:
+    github: graphql-crystal/graphql
+
+crystal: 1.5.0
+
+license: MIT
