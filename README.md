@@ -18,7 +18,9 @@
 require "amaretto"
 
 module Untitled
-  class Schema < Amaretto::Schema
+  class Schema
+    include Amaretto::Schema
+
     @[Amaretto::Annotations::Query]
     def list_users(string : String) : String
       string

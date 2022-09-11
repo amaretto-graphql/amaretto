@@ -7,12 +7,35 @@ module Amaretto
     end
 
     macro __build_helpers__
+      {% query_methods = [] of Nil %}
+      {% mutation_methods = [] of Nil %}
+
+      {% ancestors = @type.ancestors %}
+
+      {% for parent in ancestors %}
+        {% for method in parent.methods.select(&.annotation(Amaretto::Annotations::Query)) %}
+          {% query_methods << method %}
+        {% end %}
+
+        {% for method in parent.methods.select(&.annotation(Amaretto::Annotations::Mutation)) %}
+          {% mutation_methods << method %}
+        {% end %}
+      {% end %}
+
+      {% for method in @type.methods.select(&.annotation(Amaretto::Annotations::Query)) %}
+        {% query_methods << method %}
+      {% end %}
+
+      {% for method in @type.methods.select(&.annotation(Amaretto::Annotations::Mutation)) %}
+        {% mutation_methods << method %}
+      {% end %}
+
       @[GraphQL::Object]
       class Query < GraphQL::BaseQuery
         include GraphQL::ObjectType
         include GraphQL::QueryType
 
-        {% for method in @type.methods.select(&.annotation(Amaretto::Annotations::Query)) %}
+        {% for method in query_methods %}
           @[GraphQL::Field]
           {{method}}
         {% end %}
@@ -23,7 +46,7 @@ module Amaretto
         include GraphQL::ObjectType
         include GraphQL::MutationType
 
-        {% for method in @type.methods.select(&.annotation(Amaretto::Annotations::Mutation)) %}
+        {% for method in mutation_methods %}
           @[GraphQL::Field]
           {{method}}
         {% end %}
