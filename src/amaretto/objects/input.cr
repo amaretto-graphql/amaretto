@@ -13,9 +13,14 @@ module Amaretto
         {% getters = @type.methods.select { |method| !method.name.includes?("=") && !method.name.includes?("initialize") && method.visibility == :public } %}
         {% privates = @type.methods.select(&.visibility.==(:private)) %}
         {% name = @type.stringify.split("::").last %}
+        {% ancestors = @type.ancestors.reject { |ancestor| ancestor.<=(Amaretto::Objects::Input) || ancestor.<=(Reference) || ancestor.<=(Object) } %}
 
         @[GraphQL::InputObject(name: {{name}})]
         class Type < GraphQL::BaseInputObject
+          {% for ancestor in ancestors %}
+            include {{ancestor}}
+          {% end%}
+
           {% for method in initialize %}
             @[GraphQL::Field]
             {{method}}
