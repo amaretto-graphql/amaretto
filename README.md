@@ -18,17 +18,15 @@
 require "amaretto"
 
 module Untitled
-  class Schema
-    include Amaretto::Schema
-
+  class Schema < Amaretto::Schema
     @[Amaretto::Annotations::Query]
-    def list_users(string : String) : String
-      string
+    def list_users : Array(String)
+      [] of String
     end
 
     @[Amaretto::Annotations::Mutation]
-    def create_users(string : String) : String
-      string
+    def create_user(string : String) : String
+      raise Exception.new("User #{string} already exists!")
     end
   end
 end
