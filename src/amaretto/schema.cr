@@ -1,6 +1,6 @@
 module Amaretto
-  module Schema
-    macro included
+  class Schema
+    macro inherited
       macro finished
         __build_helpers__
       end
