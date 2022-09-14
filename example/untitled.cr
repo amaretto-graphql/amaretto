@@ -4,7 +4,7 @@ require "uuid"
 module Queries
   # You can split query definitions into countless modules
   # for readability.
-  alias Context = Untitled::Context::Type
+  alias Context = Untitled::Context
   alias Query = Amaretto::Annotations::Query
 
   @[Query]
@@ -16,7 +16,7 @@ end
 module Mutations
   # You can split mutation definitions into countless modules
   # for readability.
-  alias Context = Untitled::Context::Type
+  alias Context = Untitled::Context
   alias Message = Untitled::Message::Type
   alias Mutation = Amaretto::Annotations::Mutation
 
@@ -42,9 +42,7 @@ module Untitled
   end
 
   # Context class lets fields access global data, like database connections.
-  class Context
-    include Amaretto::Context
-
+  class Context < GraphQL::Context
     property current_user : Hash(String, String)
 
     def initialize(@current_user : Hash(String, String))
@@ -86,7 +84,7 @@ module Untitled
 end
 
 class QueryChain
-  alias Context = Untitled::Context::Type
+  alias Context = Untitled::Context
   alias Schema = Untitled::Schema
   alias Message = Untitled::Message
 
