@@ -136,5 +136,5 @@ puts query_chain.mutation_simple
 
 input, output = query_chain.object_from_json
 
-pp input
-pp output
+puts input.to_json
+puts output.to_json
