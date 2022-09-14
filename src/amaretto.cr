@@ -1,4 +1,5 @@
 require "graphql"
+require "json"
 require "./amaretto/**"
 
 module Amaretto

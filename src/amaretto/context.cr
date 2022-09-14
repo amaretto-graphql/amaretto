@@ -12,7 +12,7 @@ module Amaretto
       class Type < GraphQL::Context
         {% for ancestor in ancestors %}
           include {{ancestor}}
-        {% end%}
+        {% end %}
 
         {% for method in @type.methods %}
           {{method}}

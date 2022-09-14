@@ -22,7 +22,7 @@ module Mutations
 
   @[Mutation]
   def echo(message : Message, context : Context) : String
-    "#{message.id}: #{message.text} from #{context.current_user["firstName"]}!"
+    "#{message.id}: #{message.text_field} from #{context.current_user["firstName"]}!"
   end
 end
 
@@ -54,11 +54,15 @@ module Untitled
   # Input/Output module lets you define custom input and output types.
   class Message
     include Amaretto::Objects::Input
+    include JSON::Serializable
 
+    @[JSON::Field(key: "id")]
     property id : String
-    property text : String
 
-    def initialize(@id : String, @text : String)
+    @[JSON::Field(key: "textField")]
+    property text_field : String
+
+    def initialize(@id : String, @text_field : String)
     end
   end
 
@@ -81,14 +85,55 @@ module Untitled
   end
 end
 
-query = Untitled::Schema::Query.new
-mutation = Untitled::Schema::Mutation.new
+class QueryChain
+  alias Context = Untitled::Context::Type
+  alias Schema = Untitled::Schema
+  alias Message = Untitled::Message
 
-schema = GraphQL::Schema.new(query, mutation)
-context = Untitled::Context::Type.new({"firstName" => "John", "lastName" => "Doe"})
+  def query_simple
+    query = Schema::Query.new
+    schema = GraphQL::Schema.new(query)
 
-puts schema.document.to_s
+    context = Context.new({"firstName" => "John", "lastName" => "Doe"})
 
-puts schema.execute("query{message}", nil, nil, context)
-puts schema.execute("query{reversedRandomId}", nil, nil)
-puts schema.execute("mutation{echo(message:{id: \"#{UUID.random}\", text: \"Hello\"})}", nil, nil, context)
+    schema.execute("query{message}", nil, nil, context)
+  end
+
+  def query_scalar
+    query = Schema::Query.new
+    schema = GraphQL::Schema.new(query)
+
+    schema.execute("query{reversedRandomId}", nil, nil)
+  end
+
+  def mutation_simple
+    query = Schema::Query.new
+    mutation = Schema::Mutation.new
+
+    schema = GraphQL::Schema.new(query, mutation)
+
+    context = Context.new({"firstName" => "John", "lastName" => "Doe"})
+
+    schema.execute("mutation{echo(message:{id: \"#{UUID.random}\", textField: \"Hello\"})}", nil, nil, context)
+  end
+
+  def object_from_json
+    Message.from_json("{\"id\": \"#{UUID.random}\", \"textField\": \"Hello\"}")
+  end
+
+  def schema
+    query = Schema::Query.new
+    mutation = Schema::Mutation.new
+
+    schema = GraphQL::Schema.new(query, mutation)
+    schema.document.to_s
+  end
+end
+
+query_chain = QueryChain.new
+
+puts query_chain.schema
+puts query_chain.query_simple
+puts query_chain.query_scalar
+puts query_chain.mutation_simple
+puts query_chain.object_from_json

@@ -15,7 +15,7 @@ module Amaretto
         class Type < GraphQL::BaseScalar
           {% for ancestor in ancestors %}
             include {{ancestor}}
-          {% end%}
+          {% end %}
 
           {% for method in @type.methods %}
             {{method}}

@@ -10,7 +10,7 @@ module Amaretto
       macro __build_helpers__
         {% initialize = @type.methods.select(&.name.stringify.==("initialize")) %}
         {% setters = @type.methods.select(&.name.includes?("=")) %}
-        {% getters = @type.methods.select { |method| !method.name.includes?("=") && !method.name.includes?("initialize") && method.visibility == :public } %}
+        {% getters = @type.methods.select { |method| !method.name.includes?("=") && !method.name.==("initialize") && method.visibility == :public } %}
         {% privates = @type.methods.select(&.visibility.==(:private)) %}
         {% name = @type.stringify.split("::").last %}
         {% ancestors = @type.ancestors.reject { |ancestor| ancestor.<=(Amaretto::Objects::Input) || ancestor.<=(Reference) || ancestor.<=(Object) } %}
@@ -19,7 +19,7 @@ module Amaretto
         class Type < GraphQL::BaseInputObject
           {% for ancestor in ancestors %}
             include {{ancestor}}
-          {% end%}
+          {% end %}
 
           {% for method in initialize %}
             @[GraphQL::Field]
