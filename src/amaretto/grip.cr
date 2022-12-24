@@ -1,4 +1,5 @@
 require "grip"
+require "amaretto"
 
 module Amaretto
   module Grip
