@@ -38,6 +38,8 @@ schema = GraphQL::Schema.new(query, mutation)
 puts schema.document.to_s
 ```
 
+See the examples directory for detailed usage with Kemal or Grip
+
 ## Contributing
 
 1. Fork it (<https://github.com/amaretto-graphql/amaretto/fork>)

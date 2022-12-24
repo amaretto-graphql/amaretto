@@ -1,5 +1,7 @@
 require "graphql"
-require "./amaretto/**"
+
+require "./amaretto/annotations/**"
+require "./amaretto/schema"
 
 module Amaretto
   alias Context = GraphQL::Context

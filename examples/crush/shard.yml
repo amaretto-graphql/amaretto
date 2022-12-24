@@ -1,17 +1,20 @@
-name: amaretto
-version: 0.2.0
+name: crush
+version: 0.1.0
 
 authors:
   - Giorgi Kavrelishvili <giorgi.kavrelishvili@pm.me>
+
+targets:
+  crush:
+    main: src/crush.cr
 
 dependencies:
   graphql:
     github: graphql-crystal/graphql
 
-development_dependencies:
-  ameba:
-    github: crystal-ameba/ameba
+  grip:
+    github: grip-frameworks/grip
 
-crystal: 1.5.0
+crystal: 1.6.2
 
 license: MIT

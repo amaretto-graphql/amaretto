@@ -1,17 +1,20 @@
-name: amaretto
-version: 0.2.0
+name: camel
+version: 0.1.0
 
 authors:
   - Giorgi Kavrelishvili <giorgi.kavrelishvili@pm.me>
+
+targets:
+  camel:
+    main: src/camel.cr
 
 dependencies:
   graphql:
     github: graphql-crystal/graphql
 
-development_dependencies:
-  ameba:
-    github: crystal-ameba/ameba
+  kemal:
+    github: kemalcr/kemal
 
-crystal: 1.5.0
+crystal: 1.6.2
 
 license: MIT
