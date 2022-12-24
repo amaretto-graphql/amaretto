@@ -13,7 +13,7 @@ dependencies:
     github: graphql-crystal/graphql
 
   grip:
-    github: grip-frameworks/grip
+    github: grip-framework/grip
 
 crystal: 1.6.2
 
