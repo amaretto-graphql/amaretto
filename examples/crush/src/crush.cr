@@ -11,10 +11,14 @@ module Crush
     end
   end
 
-  class Application < Grip::Application
-    def initialize
-      super
+  class Application
+    include Grip::Application
 
+    def initialize
+      routes
+    end
+
+    def routes
       forward "/graphql", Amaretto::Grip::GraphQL, query: Schema::Query.new
       forward "/graphiql", Amaretto::Grip::GraphiQL if environment == "development"
     end
